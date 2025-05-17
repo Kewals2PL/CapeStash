@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sprawdzanie kodów pelerynek</title>
     <style>
-        /* Basic Reset & Body Styling */
+        /* Twój dotychczasowy styl – bez zmian */
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6; /* Light gray background */
+            background-color: #f4f7f6;
             color: #333;
             display: flex;
             flex-direction: column;
@@ -24,25 +23,20 @@
             padding: 20px;
             line-height: 1.6;
         }
-
-        /* Container for the checker */
         .checker-container {
-            background-color: #ffffff; /* White card */
+            background-color: #ffffff;
             padding: 30px 40px;
             border-radius: 12px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px; /* Max width for larger screens */
+            max-width: 500px;
             text-align: center;
         }
-
         h1 {
-            color: #2c3e50; /* Darker blue-gray */
+            color: #2c3e50;
             margin-bottom: 25px;
             font-size: 1.8em;
         }
-
-        /* Input field styling */
         #codeInput {
             width: 100%;
             padding: 12px 15px;
@@ -52,16 +46,13 @@
             font-size: 1em;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-
         #codeInput:focus {
-            border-color: #3498db; /* Blue focus */
+            border-color: #3498db;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
             outline: none;
         }
-
-        /* Button styling */
         button {
-            background-color: #3498db; /* Primary blue */
+            background-color: #3498db;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -72,48 +63,40 @@
             width: 100%;
             font-weight: bold;
         }
-
         button:hover {
-            background-color: #2980b9; /* Darker blue on hover */
+            background-color: #2980b9;
         }
-
         button:active {
-            transform: translateY(1px); /* Slight press effect */
+            transform: translateY(1px);
         }
-
-        /* Result area styling */
         .result {
             margin-top: 20px;
             padding: 15px;
             border-radius: 6px;
             font-weight: bold;
-            min-height: 50px; /* Prevent layout shift */
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-
-        /* Dynamic result styles */
         .result-info {
-            background-color: #e9ecef; /* Light gray for info */
+            background-color: #e9ecef;
             color: #495057;
         }
         .result-success {
-            background-color: #d4edda; /* Green for success */
+            background-color: #d4edda;
             color: #155724;
         }
         .result-warning {
-            background-color: #fff3cd; /* Yellow for warning (used) */
+            background-color: #fff3cd;
             color: #856404;
         }
         .result-error {
-            background-color: #f8d7da; /* Red for error (not found) */
+            background-color: #f8d7da;
             color: #721c24;
         }
-
-        /* Footer for a bit of polish */
         .footer {
             margin-top: 30px;
             font-size: 0.8em;
@@ -135,40 +118,17 @@
         Prosty sprawdzacz kodów
     </div>
 
-    <script>
-        // Example data - expand this with your actual cape codes
-        const data = [
-            {
-                "name": "Sky_Event_Cape",
-                "codes": [
-                    { "id": "SKYNY2024", "used": false },
-                    { "id": "OLDCODE01", "used": true },
-                    { "id": "HOLIDAYCAPE", "used": false }
-                ]
-            },
-            {
-                "name": "Twitch_Drop_Cape",
-                "codes": [
-                    { "id": "TWITCHPOG", "used": false },
-                    { "id": "STREAMGIFT", "used": true }
-                ]
-            },
-            {
-                "name": "Special_Edition_Cape",
-                "codes": [
-                    { "id": "EXCLUSIVE007", "used": false }
-                ]
-            }
-        ];
+    <!-- Zewnętrzny plik z danymi -->
+    <script src="data.js"></script>
 
+    <script>
         const codeInput = document.getElementById('codeInput');
         const resultDiv = document.getElementById('result');
 
         function checkCode() {
-            const input = codeInput.value.trim().toUpperCase(); // Standardize to uppercase
+            const input = codeInput.value.trim().toUpperCase();
 
-            // Clear previous result classes
-            resultDiv.className = 'result'; // Reset classes
+            resultDiv.className = 'result';
 
             if (!input) {
                 resultDiv.textContent = "Proszę wpisać kod pelerynki.";
@@ -179,7 +139,7 @@
             let found = false;
             for (const category of data) {
                 for (const code of category.codes) {
-                    if (code.id.toUpperCase() === input) { // Compare in uppercase
+                    if (code.id.toUpperCase() === input) {
                         if (code.used) {
                             resultDiv.textContent = `Kod "${input}" został już użyty (kategoria: ${category.name}).`;
                             resultDiv.classList.add('result-warning');
@@ -188,10 +148,10 @@
                             resultDiv.classList.add('result-success');
                         }
                         found = true;
-                        break; // Exit inner loop once code is found
+                        break;
                     }
                 }
-                if (found) break; // Exit outer loop if code was found
+                if (found) break;
             }
 
             if (!found) {
@@ -200,17 +160,12 @@
             }
         }
 
-        // Allow pressing Enter to check code
         codeInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent form submission if it were in a form
+                event.preventDefault();
                 checkCode();
             }
         });
-
-        // Initial message
-        // resultDiv.textContent = "Wpisz kod, aby sprawdzić jego status.";
-        // resultDiv.classList.add('result-info'); // Already set in HTML for initial state
     </script>
 </body>
 </html>
