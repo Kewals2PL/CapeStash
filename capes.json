@@ -1,21 +1,11 @@
 [
     {
-        "name": "Home_Cape",
+        "name": "vanilla_cape",
         "codes": [
             {
                 "id": "1234-1234-1234",
                 "used": false
-            },
-            {
-                "id": "5678-5678-5678",
-                "used": true
             }
-        ]
-    },
-    {
-        "name": "vanilla_cape",
-        "ids": [
-            "1234-1234-1234"
         ]
     }
 ]
