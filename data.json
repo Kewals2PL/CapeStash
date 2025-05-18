@@ -1,15 +1,16 @@
 [
-    {
-        "name": "vanilla_cape",
-        "codes": [
-            {
-                "id": "1234-1234-1234",
-                "used": false
-            },
-            {
-                "id": "12345-12345-12345-12345-12345",
-                "used": false
-            }
-        ]
-    }
+  {
+    "name": "15th Anniversary Cape",
+    "image": "https://wp.clutchpoints.com/wp-content/uploads/2024/05/How-to-claim-the-Minecraft-15th-Anniversary-Cape.jpg?w=1200",
+    "code": "12345-12345-12345-12345-12345",
+    "status": "expired",
+    "notes": "Dostępna od 17 maja do 21 czerwca 2024"
+  },
+  {
+    "name": "TikTok Follower Cape",
+    "image": "https://example.com/images/tiktok.png",
+    "code": "12345-12345-12345-12345-12345",
+    "status": "expired",
+    "notes": "Tylko dla uczestników wydarzenia TikTok w 2024"
+  }
 ]
