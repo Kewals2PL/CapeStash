@@ -1,6 +1,6 @@
 import json
 
-with open("capes.json", "r", encoding="utf-8") as f:
+with open("data.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
 with open("data.js", "w", encoding="utf-8") as f:

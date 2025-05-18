@@ -1,0 +1,26 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background: #f3f3f3;
+}
+
+.cape {
+  background: white;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.cape img {
+  display: block;
+  margin: 10px 0;
+}
+
+.cape.active {
+  border-left: 5px solid green;
+}
+
+.cape.expired {
+  border-left: 5px solid red;
+}
