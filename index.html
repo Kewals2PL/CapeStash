@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sprawdzanie kodów pelerynek</title>
     <style>
-        /* Twój dotychczasowy styl – bez zmian */
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -23,54 +22,101 @@
             padding: 20px;
             line-height: 1.6;
         }
-        .checker-container {
+        .content-wrapper {
             background-color: #ffffff;
             padding: 30px 40px;
             border-radius: 12px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
-            text-align: center;
+            max-width: 700px;
+            display: flex;
+            gap: 30px;
         }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 1.8em;
+        .cape-preview-column {
+            flex: 0 0 150px;
+            display: flex;
+            flex-direction: column; /* Allow for text under image if needed */
+            align-items: center; /* Center image */
         }
-        #codeInput {
+
+        #capePreviewImage { /* Styling for the actual image */
             width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 15px;
+            max-width: 150px; /* Max width of the column */
+            height: auto;     /* Maintain aspect ratio */
+            min-height: 200px; /* Minimum height to maintain layout consistency */
+            border: 1px solid #eee;
+            border-radius: 8px;
+            object-fit: contain; /* Or 'cover' depending on preference; 'contain' ensures whole image is visible */
+            background-color: #f8f9fa; /* Light background for transparent images */
+        }
+
+        .cape-info-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Adjusted gap */
+        }
+
+        #capeNameDisplay { /* ID for the H2 */
+            color: #2c3e50;
+            font-size: 1.6em;
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 5px;
+            min-height: 1.2em; /* To prevent layout shift when text changes */
+        }
+
+        .action-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .action-label {
+            font-size: 1em;
+            color: #333;
+            white-space: nowrap;
+        }
+        .input-button-group {
+            display: flex;
+            flex-grow: 1;
             border: 1px solid #ddd;
             border-radius: 6px;
-            font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
         }
-        #codeInput:focus {
+        .input-button-group:focus-within {
             border-color: #3498db;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        #codeInput {
+            flex-grow: 1;
+            padding: 10px 12px;
+            border: none;
+            font-size: 1em;
+            border-radius: 6px 0 0 6px;
+        }
+        #codeInput:focus {
             outline: none;
         }
-        button {
+        .input-button-group button {
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 10px 15px;
             font-size: 1em;
-            border-radius: 6px;
+            border-radius: 0 6px 6px 0;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.1s ease;
-            width: 100%;
             font-weight: bold;
+            border-left: 1px solid #ddd;
         }
-        button:hover {
+        .input-button-group button:hover {
             background-color: #2980b9;
         }
-        button:active {
+        .input-button-group button:active {
             transform: translateY(1px);
         }
         .result {
-            margin-top: 20px;
             padding: 15px;
             border-radius: 6px;
             font-weight: bold;
@@ -81,41 +127,35 @@
             text-align: center;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .result-info {
-            background-color: #e9ecef;
-            color: #495057;
-        }
-        .result-success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .result-warning {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        .result-error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .footer {
-            margin-top: 30px;
-            font-size: 0.8em;
-            color: #777;
-        }
+        .result-info { background-color: #e9ecef; color: #495057; }
+        .result-success { background-color: #d4edda; color: #155724; }
+        .result-warning { background-color: #fff3cd; color: #856404; }
+        .result-error { background-color: #f8d7da; color: #721c24; }
+        .footer { margin-top: 30px; font-size: 0.8em; color: #777; }
     </style>
 </head>
 <body>
-    <div class="checker-container">
-        <h1>Sprawdź kod pelerynki</h1>
-        <input type="text" id="codeInput" placeholder="Wpisz kod peleryny">
-        <button onclick="checkCode()">Sprawdź</button>
-        <div class="result result-info" id="result" aria-live="polite">
-            Wpisz kod, aby sprawdzić jego status.
+    <div class="content-wrapper">
+        <div class="cape-preview-column">
+            <img id="capePreviewImage" src="images/cape_placeholder.png" alt="Podgląd pelerynki">
+        </div>
+        <div class="cape-info-column">
+            <h2 id="capeNameDisplay">Sprawdź Kod Pelerynki</h2>
+            <div class="action-section">
+                <span class="action-label">Get Key:</span>
+                <div class="input-button-group">
+                    <input type="text" id="codeInput" placeholder="Wpisz kod">
+                    <button onclick="checkCode()">Ok</button>
+                </div>
+            </div>
+            <div class="result result-info" id="result" aria-live="polite">
+                Wpisz kod, aby sprawdzić jego status.
+            </div>
         </div>
     </div>
 
     <div class="footer">
-        Prosty sprawdzacz kodów
+        Sprawdzacz kodów pelerynek
     </div>
 
     <!-- Zewnętrzny plik z danymi -->
@@ -124,37 +164,73 @@
     <script>
         const codeInput = document.getElementById('codeInput');
         const resultDiv = document.getElementById('result');
+        const capeNameDisplay = document.getElementById('capeNameDisplay');
+        const capePreviewImage = document.getElementById('capePreviewImage');
+
+        const defaultCapeName = "Sprawdź Kod Pelerynki";
+        const defaultCapeImage = "images/cape_placeholder.png"; // Ensure this image exists
+
+        // Function to reset to default state
+        function resetToDefault() {
+            capeNameDisplay.textContent = defaultCapeName;
+            capePreviewImage.src = defaultCapeImage;
+            capePreviewImage.alt = "Podgląd pelerynki";
+            resultDiv.className = 'result result-info';
+            resultDiv.textContent = "Wpisz kod, aby sprawdzić jego status.";
+        }
 
         function checkCode() {
             const input = codeInput.value.trim().toUpperCase();
-
-            resultDiv.className = 'result';
+            resultDiv.className = 'result'; // Reset result classes
 
             if (!input) {
+                resetToDefault(); // Reset to default if input is empty
                 resultDiv.textContent = "Proszę wpisać kod pelerynki.";
                 resultDiv.classList.add('result-info');
                 return;
             }
 
-            let found = false;
-            for (const category of data) {
-                for (const code of category.codes) {
-                    if (code.id.toUpperCase() === input) {
-                        if (code.used) {
-                            resultDiv.textContent = `Kod "${input}" został już użyty (kategoria: ${category.name}).`;
-                            resultDiv.classList.add('result-warning');
-                        } else {
-                            resultDiv.textContent = `Kod "${input}" jest dostępny! (kategoria: ${category.name}).`;
-                            resultDiv.classList.add('result-success');
-                        }
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) break;
+            let foundCapeData = null;
+            let codeStatus = null; // To store if found code is used or available
+
+            if (typeof data === 'undefined' || !Array.isArray(data)) {
+                resultDiv.textContent = "Błąd: Dane kodów (data.js) nie są dostępne lub mają nieprawidłowy format.";
+                resultDiv.classList.add('result-error');
+                capeNameDisplay.textContent = "Błąd Danych";
+                capePreviewImage.src = defaultCapeImage; // Or a specific error image
+                return;
             }
 
-            if (!found) {
+            for (const capeType of data) {
+                if (capeType.codes && Array.isArray(capeType.codes)) {
+                    for (const code of capeType.codes) {
+                        if (code.id && code.id.toUpperCase() === input) {
+                            foundCapeData = capeType; // Store the whole capeType object
+                            codeStatus = code.used;
+                            break;
+                        }
+                    }
+                }
+                if (foundCapeData) break;
+            }
+
+            if (foundCapeData) {
+                capeNameDisplay.textContent = foundCapeData.capeDisplayName || "Nieznana Pelerynka";
+                capePreviewImage.src = foundCapeData.capeImage || defaultCapeImage;
+                capePreviewImage.alt = `Pelerynka: ${foundCapeData.capeDisplayName || 'Nieznana'}`;
+
+                if (codeStatus) { // code.used is true
+                    resultDiv.textContent = `Kod "${input}" został już użyty (Pelerynka: ${foundCapeData.capeDisplayName}).`;
+                    resultDiv.classList.add('result-warning');
+                } else { // code.used is false
+                    resultDiv.textContent = `Kod "${input}" jest dostępny! (Pelerynka: ${foundCapeData.capeDisplayName}).`;
+                    resultDiv.classList.add('result-success');
+                }
+            } else {
+                // Code not found, reset to defaults but show error message
+                capeNameDisplay.textContent = defaultCapeName; // Or "Nie znaleziono pelerynki"
+                capePreviewImage.src = defaultCapeImage;
+                capePreviewImage.alt = "Podgląd pelerynki";
                 resultDiv.textContent = `Kod "${input}" nie został znaleziony. Sprawdź, czy został wpisany poprawnie.`;
                 resultDiv.classList.add('result-error');
             }
@@ -166,6 +242,9 @@
                 checkCode();
             }
         });
+
+        // Initialize with default state on page load
+        window.onload = resetToDefault;
     </script>
 </body>
 </html>
